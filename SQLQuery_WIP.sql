@@ -40,10 +40,10 @@ from actor
 group by last_name;
 
 -- 4b
-select last_name, count(last_name) as "Name_count"
+select last_name, count(last_name) as 'Name_count'
 from actor
 group by last_name
-having "Name_count" > 1;
+having `Name_count` > 1;
 
 -- 4c 
 select*
@@ -164,7 +164,7 @@ FROM film f
 LEFT JOIN inventory i ON i.film_id = f.film_id
 LEFT JOIN rental r ON i.inventory_id = r.inventory_id
 GROUP BY f.title
-ORDER BY "Number of times rented" desc;
+ORDER BY `Number of times rented` desc;
 
 -- 7f
 SELECT st.store_id, SUM(p.amount) AS "Total revenue (by store)"
@@ -181,26 +181,26 @@ LEFT JOIN city cty ON a.city_id = cty.city_id
 LEFT JOIN country ctry ON cty.country_id = ctry.country_id;
 
 -- 7h
-SELECT c.name, sum(p.amount) AS "Total gross revenue (by genre)"
+SELECT c.name, sum(amount) AS "Total gross revenue (by genre)"
 FROM payment p
-LEFT JOIN rental r ON p.customer_id = r.customer_id
-LEFT JOIN inventory i ON r.inventory_id = i.inventory_id
-LEFT JOIN film_category fc ON i.film_id = fc.film_id
-LEFT JOIN category c ON fc.category_id = fc.category_id
+INNER JOIN rental r ON p.rental_id = r.rental_id
+INNER JOIN inventory i ON r.inventory_id = i.inventory_id
+INNER JOIN film_category fc ON i.film_id = fc.film_id
+INNER JOIN category c ON fc.category_id = c.category_id
 GROUP BY c.name
-ORDER BY "Total gross revenue (by genre)" DESC
+ORDER BY `Total gross revenue (by genre)` DESC
 limit 5;
 
 -- 8a
 CREATE VIEW  top_five_revenue AS
 SELECT c.name, sum(p.amount) AS "Total gross revenue (by genre)"
 FROM payment p
-LEFT JOIN rental r ON p.customer_id = r.customer_id
+LEFT JOIN rental r ON p.rental_id = r.rental_id
 LEFT JOIN inventory i ON r.inventory_id = i.inventory_id
 LEFT JOIN film_category fc ON i.film_id = fc.film_id
-LEFT JOIN category c ON fc.category_id = fc.category_id
+LEFT JOIN category c ON fc.category_id = c.category_id
 GROUP BY c.name
-ORDER BY "Total gross revenue (by genre)" DESC
+ORDER BY `Total gross revenue (by genre)` DESC
 limit 5;
 
 -- 8b
